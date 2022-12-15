@@ -1,6 +1,10 @@
 #!/bin/bash
 #Tasks...
 # [1] Database
+#       [*] delete Database
+#       [*] list Databases
+#       [1.3] create Database
+#       [1.1] connect to Database
 # [2] Tables
 # [3] column
 # [4] Data inside columns
@@ -10,7 +14,8 @@ select i in "Create Database" "Show all Databases" "connect to Database" "Drop a
 do
 case $i in
     "Create Database" )
-        . ./CreateDB.Sh
+        . ./CreateDB.sh
+        break
     ;;
     "Show all Databases" )
         ls -F|grep "/"
@@ -18,6 +23,7 @@ case $i in
     ;;
     "connect to Database" )
         . ./ConnectDB.sh
+        break
     ;;
     "Drop a Database" )
         . ./deleteDB.sh
