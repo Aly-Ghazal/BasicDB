@@ -10,4 +10,5 @@ if [[ -d $Database ]]; then
     . ./tableMenu.sh
 else
     echo "there is no database with such a name"
+    . ./main_program.sh
 fi
