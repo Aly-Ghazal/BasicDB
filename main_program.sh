@@ -4,7 +4,7 @@
 #       [*] delete Database
 #       [*] list Databases
 #       [*] create Database
-#       [1.1] connect to Database
+#       [*] connect to Database
 # [2] Tables
 # [3] column
 # [4] Data inside columns

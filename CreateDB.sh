@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "NOTE that the name of the Database cannot contain spaces, any special character or starts with number"
+echo "NOTE that the name of the Database cannot contain spaces, any special character or starts with a number"
 read  -p "now enter the name of your new Database: " name
 source ./commonFunctions.sh
 
