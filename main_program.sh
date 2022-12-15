@@ -3,14 +3,14 @@
 # [1] Database
 #       [*] delete Database
 #       [*] list Databases
-#       [1.3] create Database
+#       [*] create Database
 #       [1.1] connect to Database
 # [2] Tables
 # [3] column
 # [4] Data inside columns
 echo "Welcome to BasicDB where you can insert, delete, create, update --> tables & Databases "
 echo "please choose from the next list by number what do you want to do :) "
-select i in "Create Database" "Show all Databases" "connect to Database" "Drop a Database"
+select i in "Create Database" "Show all Databases" "connect to Database" "Drop a Database" "exit"
 do
 case $i in
     "Create Database" )
@@ -19,15 +19,19 @@ case $i in
     ;;
     "Show all Databases" )
         ls -F|grep "/"
-        break
+        . ./main_program.sh
     ;;
     "connect to Database" )
         . ./ConnectDB.sh
-        break
+        . ./main_program.sh
     ;;
     "Drop a Database" )
         . ./deleteDB.sh
         break
+    ;;
+    "exit" )
+        echo "GOODBYE `whoami` ;) "
+        exit
     ;;
     * )
         echo "unavilable option"
