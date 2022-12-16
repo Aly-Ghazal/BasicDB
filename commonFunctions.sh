@@ -26,3 +26,23 @@ checkFirstChar(){
         echo 0
     fi
 }
+#metadata --> PK
+
+#data itself --> column to be searched in
+#new input
+
+isPK(){
+    if [[ $1 == "Y" ]]; then
+    #Loop all arguments except first and second ones
+        for i in "${@:3}"
+        do
+            if [[ $2 = $i ]]; then
+                echo "PK Repeated"
+                return
+            fi
+        done
+        
+    echo "Not PK or PK uniqe"
+    return
+
+}

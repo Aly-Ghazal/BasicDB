@@ -41,31 +41,32 @@ isPK=0
 
 for ((i=0; i<attributes; i++))
 do
-while true
-do
-flag=1
-    read -p "column name: " columnName
-    if [[ $columnName = *" "* || `checkForSpecialCharacter $columnName` = 1 || `checkFirstChar $columnName` = 1 ]]; then
-        echo "we can't create a column its name contains spaces, special characters or starts with number "
-        flag=0
-    fi
-    columns=`awk '
-                BEGIN{FS=":"}
-                {
-                    print $1
-                }
-                ' $currentDatabase/$name/"$name.metadata"`
-    for q in $columns
+    while true
     do
-        if [[ $columnName = $q ]]; then
-            echo "this column has been created before please enter another name.."
+    # this flag to break if column name is uniuqe
+        flag=1
+        read -p "column name: " columnName
+        if [[ $columnName = *" "* || `checkForSpecialCharacter $columnName` = 1 || `checkFirstChar $columnName` = 1 ]]; then
+            echo "we can't create a column its name contains spaces, special characters or starts with number "
             flag=0
+        fi
+        columns=`awk '
+                    BEGIN{FS=":"}
+                    {
+                        print $1
+                    }
+                    ' $currentDatabase/$name/"$name.metadata"`
+        for q in $columns
+        do
+            if [[ $columnName = $q ]]; then
+                echo "this column has been created before please enter another name.."
+                flag=0
+                break
+            fi
+        done
+        if [[ $flag = 1 ]]; then
             break
         fi
-    done
-    if [[ $flag = 1 ]]; then
-    break
-    fi
 done
 
 
@@ -95,6 +96,7 @@ done
         do
             read -p "is this attribute will be your Primary Key[Y/N]: " PK
             if [[ $PK = [Yy] ]]; then
+            # to be all recorded the same Y/N
                 PK="Y"
                 isPK=1
                 break
