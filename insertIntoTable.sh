@@ -54,16 +54,12 @@ do
 
                     read -d '' -a columnDataArr <<< $columnData
                 
-
-
-                    set -x
                     #check for PK constrains
                     isPKAnswer=`isPK ${isPKArr[$counter]} $columnInput ${columnDataArr[@]}`
                     if [[ $isPKAnswer == "PK Repeated" ]]; then
                         echo "this attripute is Primary key and your input is repeated in the table "
                         continue  
                     fi
-                    set +x
 
 
 
