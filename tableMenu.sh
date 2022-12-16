@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "now you are connected to $currentDatabase"
 echo "please choose from the next list by number what do you want to do in $currentDatabase :) "
-select i in "Create Table" "Show all Tables" "update Table" "Drop Table" "back"
+select i in "Create Table" "Show all Tables" "update Table" "Drop Table" "insert into a table" "back"
 do
 case $i in
     "Create Table" )
@@ -19,6 +19,10 @@ case $i in
     ;;
     "Drop Table" )
         . ./DropTable.sh
+        . ./tableMenu.sh
+    ;;
+    "insert into a table" )
+        . ./insertIntoTable.sh
         . ./tableMenu.sh
     ;;
     "back" )
