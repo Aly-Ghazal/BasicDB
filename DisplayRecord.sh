@@ -22,9 +22,6 @@ done
     }' ./$currentDatabase/$table/"$table.metadata"`
 
 echo "you can delete with $columnSelected only because it's the primary key"
-cat ./$currentDatabase/$table/$table
-read -p "select which Record you want to update by its $columnSelected: " RecordSelceted
-sed -i "/^$RecordSelceted:/d" "./$currentDatabase/$table/$table"
-#sed -i "/:$RecordSelceted$/d" "./$currentDatabase/$table/$table"
-cat ./$currentDatabase/$table/$table
+read -p "select which Record you want to display by its $columnSelected: " RecordSelceted
+sed --silent "/^$RecordSelceted:/p" "./$currentDatabase/$table/$table"
    

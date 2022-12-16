@@ -1,15 +1,21 @@
 #!/bin/bash
 echo "now you are connected to $currentDatabase"
 echo "please choose from the next list by number what do you want to do in $currentDatabase :) "
-select i in "Create Table" "Show all Tables" "Drop table data only" "delete Record" "update Record" "Drop Table" "Show Table" "insert into a table" "back"
+select i in "Create Table" "select/display Record" "Show all Tables" "Drop table data only" "delete Record" "update Record" "Drop Table" "Show Table" "insert into a table" "back"
 do
 case $i in
     "Create Table" )
         . ./CreateTable.sh
         . ./tableMenu.sh
     ;;
+    "select/display Record" )
+        . ./DisplayRecord.sh
+        . ./tableMenu.sh
+    ;;
     "Show all Tables" )
+        echo ""
         ls -d ./$currentDatabase/*
+        echo ""
         . ./tableMenu.sh
     ;;
     "Drop table data only" )
