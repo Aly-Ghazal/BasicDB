@@ -9,6 +9,7 @@ checkForSpecialCharacter(){
     fi
 }
 #POISX regular expression
+<<comment
 : '
 checkSpaces(){
     if [[ $1 = +([:space:]) ]]; then        
@@ -18,6 +19,7 @@ checkSpaces(){
     fi
 }
 '
+comment
 #check if first char is number
 checkFirstChar(){
     if [[ ${1:0:1} = [0-9] ]]; then
@@ -38,11 +40,9 @@ isPK(){
         do
             if [[ $2 = $i ]]; then
                 echo "PK Repeated"
-                return
+                return 1
             fi
         done
-        
+    fi
     echo "Not PK or PK uniqe"
-    return
-
 }
