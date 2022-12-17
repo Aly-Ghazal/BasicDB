@@ -84,7 +84,8 @@ do
             done
             echo "${var[@]}"
             #apply them [NEED TO BE FIXED]
-            awk -v FinalAdj=${var[@]} -v columnNumber="$columnNum" 'BEGIN{FS=":"}{ $columnNumber=$FinalAdj[NR] preint $0}' ./$currentDatabase/$table/"$table" > ./$currentDatabase/$table/"$table.tmp"|mv ./$currentDatabase/$table/"$table.tmp" ./$currentDatabase/$table/"$table"
+            res=awk -v FinalAdj=$var -v columnNumber="$columnNum" 'BEGIN{FS=":"}{ $columnNumber=$FinalAdj[NR] }' ./$currentDatabase/$table/"$table" #> ./$currentDatabase/$table/"$table.tmp"|mv ./$currentDatabase/$table/"$table.tmp" ./$currentDatabase/$table/"$table"
+            echo "$res"
             break
             fi
         else
