@@ -1,3 +1,6 @@
+# PROBLEM: SELECT FIELD IN AWK BY VARIABLE..
+
+
 #!/bin/bash
 . ./commonFunctions.sh
 while true
@@ -18,15 +21,77 @@ do
 
     cat ./$currentDatabase/$table/$table
    
-    columnSelected=`awk 'BEGIN{FS=":"}{
-        if($3=="Y")
-        {
-            print $1
+    columns=`awk 'BEGIN{FS=":"}{print $1}' ./$currentDatabase/$table/"$table.metadata"`
+    echo ""
+    echo "$columns"
+    while true
+    do
+        read -p "which column you want to update with: " columnSelected
+        if [[ $columns == *$columnSelected* ]]; then
+            break
+        else
+            echo "This column doesn't exist in this table"
+        fi
+    done
+
+    columnNum=`awk -v tempselected=$columnSelected 'BEGIN{FS=":"}{
+        if(tempselected==$1){
+            print NR
         }
-    }' ./$currentDatabase/$table/"$table.metadata"`
+        }' ./$currentDatabase/$table/"$table.metadata"`
+        read -p "enter what do you want to replace: " replace
+        read -p "enter its replacement: " replacement
 
-    echo "you can update with $columnSelected only because it's the primary key"
-    read -p "select which Record you want to update by its $columnSelected: " RecordSelceted
 
-    break 
+
+    PK=`awk -v tempselected=$columnSelected 'BEGIN{FS=":"}{
+        if(tempselected==$1){
+            print $3
+        }
+        }' ./$currentDatabase/$table/"$table.metadata"`
+        
+        if [[ $PK == "Y" ]]; then
+            #$columnNumber==${# of wanted field}
+            PKexist=`awk -v columnNumber="$columnNum" -v Replacement=$replacement '
+            BEGIN{FS=":"}{
+
+            if(Replacement == $columnNumber ){
+                print "false"
+            }
+            else{
+                print "true"
+            }
+            }
+            ' ./$currentDatabase/$table/"$table"`
+            if [[ $PKexist == *"false"* ]]; then
+                echo "this value already exist and this attribute is unique(primary key)"
+                break
+            else
+            #sed -i "s/\<"$replace"\>/"$replacement"/g" "$currentDatabase/$table/$table"
+            #var=`awk -v P=$replace -v RP=$replacement -v columnNumber="$columnNum" 'BEGIN{FS=":"}{ gsub(P,RP,$columnNumber);  print }' ./$currentDatabase/$table/"$table"` #> ./$currentDatabase/$table/"$table"
+            #echo "$var"
+            echo "replaceing process finished"
+            #extract column
+            declare -a var=(`awk -v columnNumber="$columnNum" 'BEGIN{FS=":"}{ print $columnNumber }' ./$currentDatabase/$table/"$table"`)
+            
+            echo "${var[@]}"
+            #edit it
+            for ((i=0; i<${#var[@]}; i++))
+            do
+                if [[ $replace = ${var[$i]} ]]; then
+                    var[$i]=$replacement
+                fi
+            done
+            echo "${var[@]}"
+            #apply them [NEED TO BE FIXED]
+            awk -v FinalAdj=${var[@]} -v columnNumber="$columnNum" 'BEGIN{FS=":"}{ $columnNumber=$FinalAdj[NR] preint $0}' ./$currentDatabase/$table/"$table" > ./$currentDatabase/$table/"$table.tmp"|mv ./$currentDatabase/$table/"$table.tmp" ./$currentDatabase/$table/"$table"
+            break
+            fi
+        else
+            #sed -i "s/\<"$replace"\>/"$replacement"/g" "$currentDatabase/$table/$table"
+            echo "replaceing process finished"
+
+        fi
+
+break
 done
