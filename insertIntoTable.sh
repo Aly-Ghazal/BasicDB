@@ -70,7 +70,7 @@ do
                             echo "this is not a number"
                         fi
                     elif [[ ${columnTypeArr[$counter]} == "string" ]]; then
-                        if [[ $columnInput == +([a-zA-Z]) ]]; then
+                        if [[ $columnInput != +([0-9]) ]]; then
                             break
                         else
                             echo "this is not a string"

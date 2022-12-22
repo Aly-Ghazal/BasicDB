@@ -21,6 +21,7 @@ do
     columns=`awk 'BEGIN{FS=":"}{print $1}' ./$currentDatabase/$table/"$table.metadata"`
     echo ""
     echo "$columns"
+
     while true
     do
         read -p "which column you want to update with: " columnSelected
@@ -36,9 +37,31 @@ do
             print NR
         }
         }' ./$currentDatabase/$table/"$table.metadata"`
+    columnType=`awk -v tempselected=$columnSelected 'BEGIN{FS=":"}{
+        if(tempselected==$1){
+            print $2
+        }
+        }' ./$currentDatabase/$table/"$table.metadata"`
         read -p "enter what do you want to replace: " replace
+        while true
+        do
         read -p "enter its replacement: " replacement
-
+        if [[ $columnType == "number" ]]; then
+                        if [[ $replacement == +([0-9]) ]]; then
+                            break
+                        else
+                            echo "this is not a number"
+                        fi
+                    elif [[ $columnType == "string" ]]; then
+                        if [[ $replacement != +([0-9]) ]]; then
+                            break
+                        else
+                            echo "this is not a string"
+                        fi
+                    else
+                        echo "invalid Input"
+                    fi
+        done
 
 
     PK=`awk -v tempselected=$columnSelected 'BEGIN{FS=":"}{
@@ -49,7 +72,7 @@ do
         
         if [[ $PK == "Y" ]]; then
             #$columnNumber==${# of wanted field}
-            PKexist=`awk -v columnNumber="$columnNum" -v Replacement=$replacement '
+            PKexist=`awk -v columnNumber="$columnNum" -v Replacement="$replacement" '
             BEGIN{FS=":"}{
 
             if(Replacement == $columnNumber ){
@@ -64,7 +87,7 @@ do
                 echo "this value already exist and this attribute is unique(primary key)"
                 break
             else
-            Res=`awk -v columnNumber="$columnNum" -v Replacement=$replacement -v Replace=$replace -v OFS=: '
+            Res=`awk -v columnNumber="$columnNum" -v Replacement="$replacement" -v Replace="$replace" -v OFS=: '
             BEGIN{FS=":"}{
 
             if( $columnNumber == Replace ){
@@ -111,7 +134,7 @@ do
             #break
             fi
         else
-            Res=`awk -v columnNumber="$columnNum" -v Replacement=$replacement -v Replace=$replace -v OFS=: '
+            Res=`awk -v columnNumber="$columnNum" -v Replacement="$replacement" -v Replace="$replace" -v OFS=: '
             BEGIN{FS=":"}{
 
             if( $columnNumber == Replace ){

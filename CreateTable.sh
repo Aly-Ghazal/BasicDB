@@ -1,35 +1,51 @@
 #!/bin/bash
 echo "NOTE that the name of the Table cannot contain spaces, any special character or starts with a number"
-read  -p "now enter the name of your new table: " name
-source ./commonFunctions.sh
 
-if [[ $name = *" "*  ]]; then
-        echo "we can't create a table its name contains spaces "
-else 
-    if [[ `checkForSpecialCharacter $name` = 1 ]]; then
-        echo "we can't create a table its name contains special characters "
-    else
-        if [[ `checkFirstChar $name` = 1 ]]; then
-            echo "we can't create a table its name starts with number "
+source ./commonFunctions.sh
+while true
+do
+    read  -p "now enter the name of your new table: " name
+    if [[ $name = *" "*  ]]; then
+            echo ""
+            echo "we can't create a table its name contains spaces "
+            echo ""
+    else 
+        if [[ `checkForSpecialCharacter $name` = 1 ]]; then
+            echo ""
+            echo "we can't create a table its name contains special characters "
+            echo ""
         else
-            if [[ -d $currentDatabase/$name ]]; then
-                echo "this table already exist"
-                exit
+            if [[ `checkFirstChar $name` = 1 ]]; then
+                echo ""
+                echo "we can't create a table its name starts with number "
+                echo ""
             else
-                mkdir $currentDatabase/$name
-                touch $currentDatabase/$name/"$name.metadata"
-                touch $currentDatabase/$name/"$name"
-                echo "$name table has been created"
+                if [[ -d $currentDatabase/$name ]]; then
+                    echo ""
+                    echo "this table already exist"
+                    echo ""
+                    exit
+                else
+                    echo ""
+                    mkdir $currentDatabase/$name
+                    touch $currentDatabase/$name/"$name.metadata"
+                    touch $currentDatabase/$name/"$name"
+                    echo "$name table has been created"
+                    echo ""
+                    break
+                fi
             fi
         fi
     fi
-fi
+done
 declare -i attributes
 while true
 do
 read  -p "how many attributes you want to insert in the table " attributes
-if [[ $attributes != [1-9] ]]; then
+if [[ $attributes != +([1-9]) ]]; then
+    echo ""
     echo "0 and non-numerical inputs not acceptable try again.."
+    echo ""
 else
     break
 fi
@@ -47,7 +63,9 @@ do
         flag=1
         read -p "column name: " columnName
         if [[ $columnName = *" "* || `checkForSpecialCharacter $columnName` = 1 || `checkFirstChar $columnName` = 1 ]]; then
+            echo ""
             echo "we can't create a column its name contains spaces, special characters or starts with number "
+            echo ""
             flag=0
         fi
         columns=`awk '
@@ -59,7 +77,9 @@ do
         for q in $columns
         do
             if [[ $columnName = $q ]]; then
+                echo ""
                 echo "this column has been created before please enter another name.."
+                echo ""
                 flag=0
                 break
             fi
@@ -79,16 +99,22 @@ done
         case $columnType in
         "number" )
         datatype="number"
+        echo ""
         echo "column type is number"
+        echo ""
         break
         ;;
         "string" )
         datatype="string"
+        echo ""
         echo "column type is string"
+        echo ""
         break
         ;;
         * )
+        echo ""
         echo "please only choose number or string"
+        echo ""
         esac
     done
     if [[ $isPK = 0 ]]; then
@@ -104,7 +130,9 @@ done
                 PK="N"
                 break
             else 
+                echo ""
                 echo "invalid character"
+                echo ""
             fi
         done
     else

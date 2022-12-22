@@ -1,7 +1,7 @@
 #!/bin/bash
 echo ""
 echo ""
-echo `ls -F|grep "/"`
+echo `ls -F|grep "/"|cut -d "/" -f 1`
 echo ""
 echo ""
 read -p "please enter which of these Databases do you want to use: " Database
