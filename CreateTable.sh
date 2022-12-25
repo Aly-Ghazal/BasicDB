@@ -51,8 +51,6 @@ else
 fi
 done
 
-
-
 isPK=0
 
 for ((i=0; i<attributes; i++))
@@ -140,3 +138,13 @@ done
     fi
 echo "$columnName:$datatype:$PK" >> $currentDatabase/$name/"$name.metadata"
 done
+if [[ $isPK = 0 ]]; then
+    #OFS keep field sperator as ":"
+   Result=`awk -v OFS=: 'BEGIN{FS=":"}{
+        if(NR==1){
+            $3="Y"
+        }
+        print $0
+        }' ./$currentDatabase/$name/"$name.metadata"` 
+        echo "$Result" > ./$currentDatabase/$name/"$name.metadata"
+fi
