@@ -1,6 +1,7 @@
 #!/bin/bash
+echo ""
 echo "NOTE that the name of the Table cannot contain spaces, any special character or starts with a number"
-
+echo ""
 source ./commonFunctions.sh
 while true
 do
@@ -26,13 +27,20 @@ do
                     echo ""
                     exit
                 else
-                    echo ""
-                    mkdir $currentDatabase/$name
-                    touch $currentDatabase/$name/"$name.metadata"
-                    touch $currentDatabase/$name/"$name"
-                    echo "$name table has been created"
-                    echo ""
-                    break
+                    if [[ $currentDatabase == $name ]]; then
+                        echo ""
+                        echo "you can't create a table with the same name of the DataBase"
+                        echo ""
+                    else
+                        echo ""
+                        mkdir $currentDatabase/$name
+                        touch $currentDatabase/$name/"$name.metadata"
+                        touch $currentDatabase/$name/"$name"
+                        echo "$name table has been created"
+                        echo ""
+                        break
+                    fi
+                    
                 fi
             fi
         fi
