@@ -2,7 +2,7 @@
 shopt -s extglob
 #check for special character
 checkForSpecialCharacter(){
-    if [[ $1 = +(*['!'@#\$%^\&*()_+]*) ]]; then        
+    if [[ $1 = +(*['!'@#\$%^\&*()+]*) ]]; then        
         echo 1
     else
         echo 0

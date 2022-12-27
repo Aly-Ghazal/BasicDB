@@ -25,7 +25,6 @@ do
                     echo ""
                     echo "this table already exist"
                     echo ""
-                    exit
                 else
                     if [[ $currentDatabase == $name ]]; then
                         echo ""
@@ -46,6 +45,7 @@ do
         fi
     fi
 done
+
 declare -i attributes
 while true
 do
@@ -95,11 +95,7 @@ do
         fi
 done
 
-
-
-
-
-    echo "now choose datatype of your column: "
+echo "now choose datatype of your column: "
     select columnType in "number" "string"
     do
         case $columnType in
