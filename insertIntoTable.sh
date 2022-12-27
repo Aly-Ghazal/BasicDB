@@ -88,6 +88,7 @@ do
             done
             #finalRes=`cat $currentDatabase/$table/"$table"`
             #echo "\n" >> $currentDatabase/$table/"$table"
+            #removing last : made
             sed -i '$ s/.$//'  $currentDatabase/"$table"/"$table"
             printf "\n" >> $currentDatabase/"$table"/"$table"
             break

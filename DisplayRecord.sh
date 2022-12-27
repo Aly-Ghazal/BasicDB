@@ -36,7 +36,7 @@ done
     }' ./$currentDatabase/$table/"$table.metadata"`
 
 read -p "select which Record(s) you want to display by its $columnSelected: " RecordSelceted
-Result=`awk -v WantedRecords=$RecordSelceted -v ColumnN="$columnNumber" 'BEGIN{FS=":"}
+Result=`awk -v WantedRecords="$RecordSelceted" -v ColumnN="$columnNumber" 'BEGIN{FS=":"}
              {
                 if($ColumnN==WantedRecords){
                 print $0
