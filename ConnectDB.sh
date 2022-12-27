@@ -1,5 +1,6 @@
 #!/bin/bash
 echo ""
+echo "those are your created Databases: "
 echo ""
 echo `ls -F|grep "/"|cut -d "/" -f 1`
 echo ""
