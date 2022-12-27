@@ -2,7 +2,9 @@
 while true
 do
     echo ""
-    echo `ls -d ./$currentDatabase/*`
+    echo "here is your Available Tables..."
+    echo ""
+    echo `ls -d ./$currentDatabase/*|rev|cut -d "/" -f 1|rev`
     echo ""
     read -p "which table do you want to display: " table
     if [[ -f ./$currentDatabase/$table/$table ]]; then
